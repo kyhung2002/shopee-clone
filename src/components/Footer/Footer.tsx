@@ -2,8 +2,8 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className='py-16 mt-auto bg-neutral-100'>
-      <div className='px-4 mx-auto max-w-7xl'>
+    <footer className='mt-auto bg-neutral-100 py-16'>
+      <div className='container'>
         <div className='grid grid-cols-1 gap-4 lg:grid-cols-3'>
           <div className='lg:col-span-1'>
             <div>© 2023 Shopee. Tất cả các quyền được bảo lưu.</div>
@@ -15,7 +15,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className='mt-5 text-sm text-center'>
+        <div className='mt-5 text-center text-sm'>
           <div>Công ty TNHH Shopee</div>
           <div className='mt-2'>
             Địa chỉ: Tầng 4-5-6, Tòa nhà Capital Place, số 29 đường Liễu Giai, Phường Ngọc Khánh, Quận Ba Đình, Thành
