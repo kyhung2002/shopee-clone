@@ -1,16 +1,14 @@
-import React from 'react'
+import React, { InputHTMLAttributes } from 'react'
 import { FormDataTotal, FormLoginData } from '../others/validateRules'
 import { useController, UseControllerProps, Control } from 'react-hook-form'
-interface IProps {
-  type: React.HTMLInputTypeAttribute | undefined
-  placeholder?: string | undefined
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string
-  className?: string
-  control: Control<FormDataTotal, any> | Control<FormLoginData, any>
-  name: keyof FormDataTotal
+  name: string
+  classNameInput?: string
+  control: Control
 }
-const Input = ({ control, name, placeholder, errorMessage, className, type }: IProps) => {
-  const { field, fieldState } = useController({
+const Input = ({ control, name, placeholder, errorMessage, classNameInput, type }: IProps) => {
+  const { field } = useController({
     name,
     control,
     defaultValue: ''
@@ -21,7 +19,7 @@ const Input = ({ control, name, placeholder, errorMessage, className, type }: IP
         {...field}
         placeholder={placeholder}
         type={type}
-        className={`w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 ${className}`}
+        className={`w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 ${classNameInput}`}
       />
       <div className={`mt-1 min-h-[1rem] text-sm text-red-600`}>{errorMessage}</div>
     </div>

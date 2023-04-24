@@ -10,8 +10,9 @@ import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorAPI } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
 import { toast } from 'react-toastify'
+import Button from 'src/components/Button/Button'
 const Login = () => {
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
   const {
     handleSubmit,
@@ -25,6 +26,7 @@ const Login = () => {
     loginAccountMutation.mutate(data, {
       onSuccess: (data) => {
         setIsAuthenticated(true)
+        setProfile(data.data.data.user)
         toast.success('Đăng nhập thành công !')
         navigate('/')
       },
@@ -73,12 +75,14 @@ const Login = () => {
                 ></Input>
               </div>
               <div className='mt-3'>
-                <button
+                <Button
                   type='submit'
                   className='w-full bg-red-500 px-2 py-4 text-center text-sm uppercase text-white hover:bg-red-600'
+                  disabled={loginAccountMutation.isLoading}
+                  isLoading={loginAccountMutation.isLoading}
                 >
                   Đăng nhập
-                </button>
+                </Button>
               </div>
               <div className='mt-8 text-center'>
                 <div className='flex items-center justify-center'>
