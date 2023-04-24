@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormDataTotal, schema } from 'src/components/others/validateRules'
@@ -8,6 +8,11 @@ import { useMutation } from '@tanstack/react-query'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorAPI } from 'src/types/utils.type'
+import Button from 'src/components/Button/Button'
+import { toast } from 'react-toastify'
+import { AppContext } from 'src/contexts/app.context'
+import { useContext } from 'react'
+import { saveProfile } from 'src/utils/auth'
 const Register = () => {
   const {
     handleSubmit,
@@ -20,12 +25,16 @@ const Register = () => {
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormDataTotal, 'confirm_password'>) => registerAccount(body)
   })
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
+  const navigate = useNavigate()
   const onSubmit = handleSubmit((data) => {
-    // console.log(data)
     let body = omit(data, ['confirm_password'])
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
-        console.log(data)
+        toast.success('Sign up new account successfully')
+        setIsAuthenticated(true)
+        setProfile(data.data.data.user)
+        navigate('/')
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorAPI<Omit<FormDataTotal, 'confirm_password'>>>(error)) {
@@ -75,12 +84,14 @@ const Register = () => {
                 ></Input>
               </div>
               <div className='mt-3'>
-                <button
+                <Button
                   type='submit'
-                  className='w-full bg-red-500 px-2 py-4 text-center text-sm uppercase text-white hover:bg-red-600'
+                  className='w-full px-2 py-4 text-sm text-center text-white uppercase bg-red-500 hover:bg-red-600'
+                  isLoading={registerAccountMutation.isLoading}
+                  disabled={registerAccountMutation.isLoading}
                 >
                   ĐĂNG KÍ
-                </button>
+                </Button>
               </div>
               <div className='mt-8 text-center'>
                 <div className='flex items-center justify-center'>
