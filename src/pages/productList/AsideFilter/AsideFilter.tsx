@@ -83,6 +83,7 @@ const AsideFilter = () => {
                   strokeWidth={1.5}
                   stroke='currentColor'
                   className='h-4 w-4 fill-[#ffca11]'
+                  key={index}
                 >
                   <path
                     strokeLinecap='round'

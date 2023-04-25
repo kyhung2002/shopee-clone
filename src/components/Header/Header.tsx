@@ -19,7 +19,6 @@ const Header = () => {
       toast.success('Đăng xuất thành công !')
     }
   })
-  console.log(profile)
   const handleLogout = () => {
     logOutMutation.mutate()
   }

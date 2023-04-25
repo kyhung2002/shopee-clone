@@ -7,7 +7,10 @@ const SortProductList = () => {
           <button className='h-8 bg-orange px-4 text-center capitalize text-white hover:bg-orange/80'>Phổ biến</button>
           <button className='h-8 bg-white px-4 text-center capitalize text-black hover:bg-slate-100'>Mới nhất</button>
           <button className='h-8 bg-white px-4 text-center capitalize text-black hover:bg-slate-100'>Bán chạy</button>
-          <select className='h-8 bg-white px-4 text-left text-sm capitalize text-black hover:bg-slate-200'>
+          <select
+            className='h-8 bg-white px-4 text-left text-sm capitalize text-black hover:bg-slate-200'
+            defaultValue={''}
+          >
             <option value='' disabled>
               Giá
             </option>
