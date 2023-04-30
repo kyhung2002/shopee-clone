@@ -28,8 +28,8 @@ export interface ProductList {
 export interface ProductListConfig {
   page?: number | string
   limit?: number | string
-  order?: string
-  sort_by?: string
+  order?: 'desc' | 'asc'
+  sort_by?: 'createdAt' | 'view' | 'sold' | 'price'
   category?: number | string
   exclude?: string
   rating_filter?: number | string
