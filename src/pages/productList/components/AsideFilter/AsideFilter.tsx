@@ -88,6 +88,7 @@ const AsideFilter = ({ queryConfig, categories }: IProps) => {
         {categories &&
           categories.map((item, index) => (
             <li
+              key={index}
               className={classNames('py-2 pl-2', {
                 'font-bold text-orange': category === item._id
               })}

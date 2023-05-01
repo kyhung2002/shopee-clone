@@ -2,11 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import ProductRating from 'src/components/ProductRating'
 import { Product as IProduct } from 'src/types/product.type'
-import { formatVietnamNumber } from 'src/utils/utils'
+import { formatVietnamNumber, generateNameId } from 'src/utils/utils'
 
 const Product = ({ product }: { product: IProduct }) => {
   return (
-    <Link to=''>
+    <Link to={`/${generateNameId({name:product.name,id:product._id})}`}>
       <div className='overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.0625rem] hover:shadow-md'>
         <div className='relative w-full pt-[100%]'>
           <img src={product.image} alt='product' className='absolute top-0 left-0 object-cover w-full h-full' />

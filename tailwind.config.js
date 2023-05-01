@@ -1,7 +1,7 @@
 const plugin = require('tailwindcss/plugin')
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'],
   corePlugins: {
     container: false,
   },
@@ -27,6 +27,8 @@ module.exports = {
         }
       })
     }),
-    require('@tailwindcss/line-clamp')
+    require('flowbite/plugin'),
+    require('@tailwindcss/line-clamp'),
+
   ]
 }
