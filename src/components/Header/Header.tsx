@@ -1,15 +1,31 @@
-import { Link } from 'react-router-dom'
+import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import { logo } from '../others/other'
 import Popover from '../Popover'
 import { useContext } from 'react'
 import { AppContext } from 'src/contexts/app.context'
 import { useMutation } from '@tanstack/react-query'
 import { logOut } from 'src/apis/auth.api'
-
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { clearLS } from 'src/utils/auth'
+import { QueryConfig } from 'src/pages/productList/ProductList'
+import useQueryParams from 'src/hooks/useQueryParams'
+import { isUndefined, omit, omitBy } from 'lodash'
+import { FormDataTotal, schema } from '../others/validateRules'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+type FormDataHeader = Pick<FormDataTotal, 'name'>
 const Header = () => {
+  const navigate = useNavigate()
+  const nameSchema = schema.pick(['name'])
   const { isAuthenticated, setIsAuthenticated, setProfile, profile } = useContext(AppContext)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormDataHeader>({
+    resolver: yupResolver(nameSchema)
+  })
   const logOutMutation = useMutation({
     mutationFn: () => logOut(),
     onSuccess: () => {
@@ -19,9 +35,52 @@ const Header = () => {
       toast.success('Đăng xuất thành công !')
     }
   })
+  const queryParams: QueryConfig = useQueryParams()
+  // tránh người dùng nhập các params ko cần thiết.
+  const queryConfig: QueryConfig = omitBy(
+    {
+      page: queryParams.page || '1',
+      limit: queryParams.limit,
+      category: queryParams.category,
+      exclude: queryParams.exclude,
+      name: queryParams.name,
+      order: queryParams.order,
+      price_max: queryParams.price_max,
+      price_min: queryParams.price_min,
+      rating_filter: queryParams.rating_filter,
+      sort_by: queryParams.sort_by
+    },
+    isUndefined
+  )
   const handleLogout = () => {
     logOutMutation.mutate()
   }
+  const handleSearch = (values: FormDataHeader) => {
+    let sort = queryConfig.sort_by || 'created_at'
+    if (sort === 'price') {
+      navigate({
+        pathname: '/',
+        search: createSearchParams(
+          omit({ ...queryConfig, name: values.name }, [
+            'price_max',
+            'price_min',
+            'rating_filter',
+            'category',
+            'order',
+            'sort_by'
+          ])
+        ).toString()
+      })
+    } else {
+      navigate({
+        pathname: '/',
+        search: createSearchParams(
+          omit({ ...queryConfig, name: values.name }, ['price_max', 'price_min', 'rating_filter', 'category', 'order'])
+        ).toString()
+      })
+    }
+  }
+
   return (
     <div className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white'>
       <div className='container'>
@@ -111,15 +170,15 @@ const Header = () => {
           <Link to='/' className='col-span-2'>
             {logo.logoWhite}
           </Link>
-          <form className='col-span-9'>
+          <form className='col-span-9' onSubmit={handleSubmit(handleSearch)}>
             <div className='flex rounded-sm bg-white p-1'>
               <input
                 type='text'
-                name='search'
                 className='flex-grow border-none bg-transparent px-3 py-2 text-black outline-none'
                 placeholder='Đăng ký và nhận voucher bạn mới đến 70k!'
+                {...register('name')}
               />
-              <button className='flex-shrink-0 rounded-sm bg-orange px-6 py-2 hover:opacity-90'>
+              <button className='flex-shrink-0 rounded-sm bg-orange px-6 py-2 hover:opacity-90' type='submit'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'

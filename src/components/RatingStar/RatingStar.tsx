@@ -2,7 +2,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 import { QueryConfig } from 'src/pages/productList/ProductList'
 
 interface IProps {
-  queryConfig: QueryConfig
+  queryConfig?: QueryConfig
 }
 const RatingStar = ({ queryConfig }: IProps) => {
   const navigate = useNavigate()
@@ -17,7 +17,11 @@ const RatingStar = ({ queryConfig }: IProps) => {
       {Array(5)
         .fill(0)
         .map((_, index) => (
-          <li className='cursor-pointer py-1 pl-2' onClick={() => handleFilterStar(5 - index)}>
+          <li
+            className='cursor-pointer py-1 pl-2'
+            key={new Date().toUTCString() + index}
+            onClick={() => handleFilterStar(5 - index)}
+          >
             <span className='flex items-center text-sm'>
               {Array(5)
                 .fill(0)
@@ -31,7 +35,7 @@ const RatingStar = ({ queryConfig }: IProps) => {
                         strokeWidth={1.5}
                         stroke='currentColor'
                         className='h-4 w-4 fill-[#ffca11]'
-                        key={index}
+                        key={indexStar + index}
                       >
                         <path
                           strokeLinecap='round'
@@ -49,7 +53,7 @@ const RatingStar = ({ queryConfig }: IProps) => {
                       strokeWidth={1.5}
                       stroke='currentColor'
                       className='h-4 w-4 '
-                      key={index}
+                      key={indexStar + index}
                     >
                       <path
                         strokeLinecap='round'

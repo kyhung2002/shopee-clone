@@ -3,9 +3,9 @@ import { FormDataTotal, FormLoginData } from '../others/validateRules'
 import { useController, UseControllerProps, Control } from 'react-hook-form'
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string
-  name: keyof FormLoginData
+  name: keyof FormDataTotal
   classNameInput?: string
-  control: Control<FormLoginData, any> | undefined
+  control: any
 }
 const Input = ({ control, name, placeholder, errorMessage, classNameInput, type }: IProps) => {
   const { field } = useController({

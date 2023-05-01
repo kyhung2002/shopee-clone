@@ -17,7 +17,8 @@ export const schema = yup
       .required('Nhập lại password là bắt buộc')
       .min(6, 'Độ dài từ 6 - 160 ký tự')
       .max(160, 'Độ dài từ 6 - 160 ký tự')
-      .oneOf([yup.ref('password')], 'Password phải trùng với password đã nhập trước đó')
+      .oneOf([yup.ref('password')], 'Password phải trùng với password đã nhập trước đó'),
+    name: yup.string().required('Nhập tên sản phẩm cần tìm kiếm').trim()
   })
   .required()
 export type FormDataTotal = yup.InferType<typeof schema>

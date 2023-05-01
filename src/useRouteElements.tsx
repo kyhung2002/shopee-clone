@@ -7,6 +7,7 @@ import RegisterLayout from './layouts/registerLayout'
 import MainLayout from './layouts/mainLayout'
 import Profile from './pages/profilePage'
 import { AppContext } from './contexts/app.context'
+import ProductDetail from './pages/productDetail'
 // Handle Protected Routes and Rejected Routes
 
 export default function useRouteElements() {
@@ -55,12 +56,20 @@ export default function useRouteElements() {
         }
       ]
     },
-
     {
       path: '/',
       element: (
         <MainLayout>
           <ProductList></ProductList>
+        </MainLayout>
+      ),
+      index: true
+    },
+    {
+      path: ':nameId',
+      element: (
+        <MainLayout>
+          <ProductDetail></ProductDetail>
         </MainLayout>
       ),
       index: true
